@@ -15,6 +15,7 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simpl
 app.get('/api/v1/tours', (req, res) => {
   res.status(200).json({
     status: 'success',
+    result: tours.length,
     data: {
       tours
     }
