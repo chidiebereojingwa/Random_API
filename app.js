@@ -1,10 +1,12 @@
-const fs = require('fs')
+const fs = require('fs');
 const express = require('express');
 
 const app = express();
 // middleware
-app.use(express.json())
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`))
+app.use(express.json());
+const tours = JSON.parse(
+  fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
+);
 
 const getAllTours = (req, res) => {
   res.status(200).json({
@@ -16,7 +18,7 @@ const getAllTours = (req, res) => {
   });
 };
 
-const getOneTour = (req, res) => {
+const getTour = (req, res) => {
   console.log(req.params);
   // converting id string to a number
   const id = req.params.id * 1;
@@ -37,7 +39,7 @@ const getOneTour = (req, res) => {
   });
 };
 
-const creatTour = (req, res) => {
+const createTour = (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
   tours.push(newTour);
@@ -81,11 +83,22 @@ const deleteTour = (req, res) => {
   });
 };
 
-app.get('/api/v1/tours', getAllTours);
-app.get('/api/v1/tours/:id', getOneTour); 
-app.post('/api/v1/tours', creatTour);
-app.patch('/api/v1/tours/:id', updateTour);
-app.delete('/api/v1/tours/:id', deleteTour);
+// app.get('/api/v1/tours', getAllTours);
+// app.post('/api/v1/tours', createTour);
+// app.get('/api/v1/tours/:id', getTour);
+// app.patch('/api/v1/tours/:id', updateTour);
+// app.delete('/api/v1/tours/:id', deleteTour);
+
+app 
+  .route('/api/v1/tours')
+  .get(getAllTours)
+  .post(createTour);
+
+app
+  .route('/api/v1/tours/:id')
+  .get(getTour)
+  .patch(updateTour)
+  .delete(deleteTour);
 
 const port = 3000;
 app.listen(port, () => {
