@@ -3,11 +3,10 @@
  const { getAllTours, createTour, updateTour, getTour, deleteTour } =
    tourController;
 
-
-
-
  
  const router = express.Router();
+
+ router.param('id', tourController.checkID)
 
  router.route('/').get(getAllTours).post(createTour);
 
