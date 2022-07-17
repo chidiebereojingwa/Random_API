@@ -1,4 +1,7 @@
 const express = require('express')
+ const userController = require('./../controllers/userController');
+ const { getAllUsers, createUser, updateUser, getUser, deleteUser } =
+   userController;
 
 
 
